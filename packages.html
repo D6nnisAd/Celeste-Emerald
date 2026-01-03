@@ -98,6 +98,7 @@
             position: relative;
             display: flex;
             flex-direction: column;
+            cursor: pointer;
         }
 
         .package-card:hover {
@@ -197,6 +198,8 @@
             transition: all 0.3s ease;
             box-shadow: 0 0 20px rgba(130, 201, 30, 0.4);
             cursor: pointer;
+            /* Prevent double triggers */
+            pointer-events: none; 
         }
 
         .btn-select-premium:hover {
@@ -217,6 +220,8 @@
             font-size: 1.1rem;
             transition: all 0.3s ease;
             cursor: pointer;
+            /* Prevent double triggers */
+            pointer-events: none;
         }
 
         .btn-select-standard:hover {
@@ -285,7 +290,7 @@
                 
                 <!-- Premium Plan -->
                 <div class="col-lg-5 col-md-6" data-aos="fade-right" data-aos-delay="100">
-                    <div class="package-card premium">
+                    <div class="package-card premium" onclick="handlePackageSelection('Premium Plan', 15000, 'btn-premium')">
                         <div class="recommended-badge">Recommended</div>
                         <h3 class="package-title">Premium Plan</h3>
                         <div class="package-price">₦15,000</div>
@@ -295,10 +300,10 @@
                             <li><i class="fa-solid fa-check check-premium"></i> Enhanced Opportunity Access</li>
                             <li><i class="fa-solid fa-check check-premium"></i> Advanced SkillUp Courses</li>
                             <li><i class="fa-solid fa-check check-premium"></i> 24/7 Priority Support</li>
-                            <li><i class="fa-solid fa-check check-premium"></i> Premium Community Badge</li>
+                            <li><i class="fa-solid fa-check check-premium"></i> Exclusive Creator Tools</li>
                         </ul>
 
-                        <button id="btn-premium" onclick="handlePackageSelection('Premium Plan', 15000, 'btn-premium')" class="btn btn-select-premium">
+                        <button id="btn-premium" class="btn btn-select-premium">
                             Select Premium
                         </button>
                     </div>
@@ -306,7 +311,7 @@
 
                 <!-- Standard Plan -->
                 <div class="col-lg-5 col-md-6" data-aos="fade-left" data-aos-delay="200">
-                    <div class="package-card standard">
+                    <div class="package-card standard" onclick="handlePackageSelection('Standard Plan', 10000, 'btn-standard')">
                         <h3 class="package-title">Standard Plan</h3>
                         <div class="package-price">₦10,000</div>
                         
@@ -315,10 +320,10 @@
                             <li><i class="fa-solid fa-check check-standard"></i> Standard Opportunity Access</li>
                             <li><i class="fa-solid fa-check check-standard"></i> Basic SkillUp Access</li>
                             <li><i class="fa-solid fa-check check-standard"></i> Email Support</li>
-                            <li><i class="fa-solid fa-check check-standard"></i> Community Access</li>
+                            <li><i class="fa-solid fa-check check-standard"></i> Community Engagement Perks</li>
                         </ul>
 
-                        <button id="btn-standard" onclick="handlePackageSelection('Standard Plan', 10000, 'btn-standard')" class="btn btn-select-standard">
+                        <button id="btn-standard" class="btn btn-select-standard">
                             Select Standard
                         </button>
                     </div>
@@ -328,7 +333,7 @@
 
             <!-- Support Text -->
             <div class="text-center support-text" data-aos="fade-up" data-aos-delay="300">
-                If you need more explanation on Animo, or you have any issue with making a payment, 
+                If you need more explanation on Celeste, or you have any issue with making a payment, 
                 <a href="#" class="support-link" id="supportLinkAnchor">click here to contact our Support Team.</a>
             </div>
 

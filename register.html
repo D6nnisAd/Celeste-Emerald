@@ -226,11 +226,22 @@
 
             } catch (error) {
                 console.error(error);
+                
+                // SPECIAL HANDLING: If email already exists, allow user to proceed
+                if (error.code === 'auth/email-already-in-use') {
+                    // Save details to localStorage so Packages/Payment page works
+                    localStorage.setItem('userEmail', email);
+                    localStorage.setItem('userFullName', fullName);
+                    localStorage.setItem('userUsername', username);
+                    
+                    // Redirect immediately
+                    window.location.href = 'packages.html';
+                    return; 
+                }
+
                 let msg = "Registration failed. Please try again.";
                 
-                if (error.code === 'auth/email-already-in-use') {
-                    msg = "This email is already registered.";
-                } else if (error.code === 'auth/weak-password') {
+                if (error.code === 'auth/weak-password') {
                     msg = "Password should be at least 6 characters.";
                 }
                 
