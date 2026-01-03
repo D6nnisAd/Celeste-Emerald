@@ -3,8 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Celeste</title>
     
+    <!-- Primary Meta Tags -->
+    <title>Celeste | Grow & Build Digital Influence</title>
+    <meta name="title" content="Celeste | Grow & Build Digital Influence">
+    <meta name="description" content="Join Celeste.ng, the premier digital platform to access global opportunities, learn high-demand skills, and monetize your digital presence. Start your journey to professional growth today.">
+    <meta name="keywords" content="Celeste, Celeste NG, Digital Opportunities Nigeria, Digital Skills, Gig Economy, Gaming Rewards, Social Media Growth, Celeste Emerald, Digital Marketing Course, Career Development">
+    <meta name="author" content="Celeste Emerald">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://celeste.ng/">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://celeste.ng/">
+    <meta property="og:title" content="Celeste | Grow & Build Digital Influence">
+    <meta property="og:description" content="Unlock your potential with Celeste. Access opportunities, learn digital skills, and connect with a global community of creators.">
+    <meta property="og:image" content="https://celeste.ng/assets/favicon/android-chrome-512x512.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://celeste.ng/">
+    <meta property="twitter:title" content="Celeste | Grow & Build Digital Influence">
+    <meta property="twitter:description" content="Unlock your potential with Celeste. Access opportunities, learn digital skills, and connect with a global community of creators.">
+    <meta property="twitter:image" content="https://celeste.ng/assets/favicon/android-chrome-512x512.png">
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
+    <link rel="manifest" href="manifest.json">
+    <link rel="shortcut icon" href="assets/favicon/favicon.ico">
+    <meta name="msapplication-TileColor" content="#1a3c0e">
+    <meta name="theme-color" content="#1a3c0e">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,6 +49,41 @@
     
     <!-- AOS Animation CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css" rel="stylesheet">
+
+    <!-- Structured Data (Schema.org) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Celeste",
+      "url": "https://celeste.ng/",
+      "description": "Digital growth and career platform.",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://celeste.ng/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Celeste",
+      "url": "https://celeste.ng",
+      "logo": "https://celeste.ng/assets/logo.svg",
+      "sameAs": [
+        "https://facebook.com/celeste",
+        "https://twitter.com/celeste",
+        "https://instagram.com/celeste"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "url": "https://celeste.ng/packages.html"
+      }
+    }
+    </script>
 
     <style>
         :root {
@@ -69,6 +135,11 @@
             border-radius: 2px;
         }
 
+        .clickable-element {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
         /* Navbar Styling */
         .navbar {
             padding: 1.5rem 0;
@@ -283,6 +354,7 @@
             width: auto;
             object-fit: contain;
             filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+            cursor: pointer;
         }
 
         /* Features Section */
@@ -295,6 +367,7 @@
             transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
+            cursor: pointer;
         }
 
         .feature-card::before {
@@ -363,6 +436,7 @@
             height: 100%;
             display: flex;
             flex-direction: column;
+            cursor: pointer;
         }
 
         .pricing-card.premium {
@@ -535,10 +609,50 @@
             color: var(--accent-green);
         }
 
+        /* Mobile Sticky Button */
+        .mobile-sticky-signup {
+            position: fixed;
+            bottom: 15px;
+            left: 2.5%;
+            width: 95%;
+            background: rgba(255, 255, 255, 0.1); /* Clear glass */
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 15px 0;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 12px;
+            z-index: 9999;
+            transform: translateY(150%);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            display: none; /* Controlled by JS and media query */
+        }
+        
+        .mobile-sticky-signup.show {
+            transform: translateY(0);
+        }
+
+        .mobile-sticky-signup:hover {
+            color: var(--accent-green);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
         /* Mobile Adjustments */
         @media (max-width: 991px) {
             body {
                 overflow-y: auto; 
+            }
+
+            /* Enable sticky button on mobile */
+            .mobile-sticky-signup {
+                display: block; 
             }
 
             .navbar {
@@ -646,6 +760,11 @@
 <body>
 
     <div class="page-wrapper">
+        <!-- Sticky Mobile Signup Button -->
+        <a href="register.html" class="mobile-sticky-signup d-lg-none">
+            Join the Movement
+        </a>
+
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg">
             <div class="container">
@@ -698,7 +817,7 @@
                         </div>
 
                         <p class="hero-description">
-                            earn, grow, and build influence online through smart participation and collaboration.
+                            grow, learn, and build influence online through smart participation and collaboration.
                         </p>
 
                         <div class="hero-buttons">
@@ -732,23 +851,23 @@
                         </div>
                         
                         <p class="fs-6 mt-4 mb-4 text-light opacity-90" style="line-height: 1.8;">
-                            CELESTE is a digital growth and earning platform designed to help individuals <span class="text-accent fw-medium">earn</span>, <span class="text-accent fw-medium">grow</span>, and <span class="text-accent fw-medium">build influence</span> online through smart participation and collaboration.
+                            CELESTE is a digital growth and career platform designed to help individuals <span class="text-accent fw-medium">participate</span>, <span class="text-accent fw-medium">grow</span>, and <span class="text-accent fw-medium">build influence</span> online through smart collaboration.
                         </p>
                         
                         <p class="mb-4">It is a movement created for people who want to:</p>
                         
                         <div class="d-flex flex-column gap-3 mb-5">
                             <div class="feature-pill">
-                                Earn in EURO
+                                Access Global Opportunities
                             </div>
                             <div class="feature-pill">
-                                Build digital income streams
+                                Build digital competencies
                             </div>
                             <div class="feature-pill">
                                 Grow through teamwork and consistency
                             </div>
                             <div class="feature-pill">
-                                Be part of a global opportunity
+                                Be part of a global community
                             </div>
                         </div>
                         
@@ -758,7 +877,7 @@
                     </div>
                     
                     <div class="col-lg-6 text-center" data-aos="fade-left">
-                        <img src="assets/about.jpg" alt="About Celeste" class="img-fluid rounded-4 about-image">
+                        <img src="assets/about.jpg" alt="About Celeste" class="img-fluid rounded-4 about-image" onclick="window.location.href='register.html'">
                     </div>
                 </div>
             </div>
@@ -769,57 +888,57 @@
             <div class="container py-5">
                 <div class="text-center mb-5" data-aos="fade-up">
                     <h2 class="section-title display-5">Our Features</h2>
-                    <p class="text-white-50 mt-3" style="max-width: 600px; margin: 0 auto;">Unlock your potential with our powerful suite of tools designed for growth and earnings.</p>
+                    <p class="text-white-50 mt-3" style="max-width: 600px; margin: 0 auto;">Unlock your potential with our powerful suite of tools designed for professional growth.</p>
                 </div>
 
                 <div class="row g-4">
                     <!-- Celeste Gigs -->
                     <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
-                        <div class="feature-card">
+                        <div class="feature-card" onclick="window.location.href='register.html'">
                             <div class="feature-icon-wrapper">
                                 <i class="fa-solid fa-briefcase"></i>
                             </div>
                             <h3>Celeste Gigs</h3>
-                            <p>Find work, offer services, and get paid securely. Connect instantly with verified workers or clients through our trusted network.</p>
+                            <p>Find work, offer services, and complete tasks safely. Connect instantly with verified workers or clients through our trusted network.</p>
                         </div>
                     </div>
 
                     <!-- Earn As You Snap -->
                     <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
-                        <div class="feature-card">
+                        <div class="feature-card" onclick="window.location.href='register.html'">
                             <div class="feature-icon-wrapper">
                                 <i class="fa-brands fa-snapchat"></i>
                             </div>
-                            <h3>Earn As You Snap!</h3>
-                            <p>Post Celeste content on your Snapchat story and earn daily. Post the official content, tag Celeste, and get rewarded per post.</p>
+                            <h3>Snap & Connect</h3>
+                            <p>Post Celeste content on your Snapchat story. Engage with the official content, tag Celeste, and get rewarded per post.</p>
                         </div>
                     </div>
 
                     <!-- Play & Earn -->
                     <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
-                        <div class="feature-card">
+                        <div class="feature-card" onclick="window.location.href='register.html'">
                             <div class="feature-icon-wrapper">
                                 <i class="fa-solid fa-gamepad"></i>
                             </div>
-                            <h3>Play & Earn</h3>
-                            <p>The fun just got real! Play entertaining games and earn real rewards paid directly to your bank account. No gimmicks, just fun.</p>
+                            <h3>Play & Engage</h3>
+                            <p>The fun just got real! Play entertaining games and compete for rewards. No gimmicks, just fun and engagement.</p>
                         </div>
                     </div>
 
                     <!-- Celeste Yaps -->
                     <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="400">
-                        <div class="feature-card">
+                        <div class="feature-card" onclick="window.location.href='register.html'">
                             <div class="feature-icon-wrapper">
                                 <i class="fa-solid fa-microphone-lines"></i>
                             </div>
                             <h3>Celeste Yaps</h3>
-                            <p>Earn by sharing your voice. Create engaging content about Celeste on social media and get rewarded for spreading the word.</p>
+                            <p>Participate by sharing your voice. Create engaging content about Celeste on social media and unlock community benefits.</p>
                         </div>
                     </div>
 
                     <!-- Celeste SkillUp -->
                     <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="500">
-                        <div class="feature-card">
+                        <div class="feature-card" onclick="window.location.href='register.html'">
                             <div class="feature-icon-wrapper">
                                 <i class="fa-solid fa-graduation-cap"></i>
                             </div>
@@ -830,12 +949,12 @@
 
                     <!-- Universal Access -->
                     <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="600">
-                        <div class="feature-card">
+                        <div class="feature-card" onclick="window.location.href='register.html'">
                             <div class="feature-icon-wrapper">
                                 <i class="fa-solid fa-earth-africa"></i>
                             </div>
                             <h3>Celeste Universal</h3>
-                            <p>A global movement without boundaries. Whether you are in Africa, Asia, or Europe, you can earn and grow with Celeste.</p>
+                            <p>A global movement without boundaries. Whether you are in Africa, Asia, or Europe, you can grow with Celeste.</p>
                         </div>
                     </div>
                 </div>
@@ -847,22 +966,22 @@
             <div class="container py-5">
                 <div class="text-center mb-5" data-aos="fade-up">
                     <h2 class="section-title display-5">Choose Your Package</h2>
-                    <p class="text-white-50 mt-3">Start your journey to financial freedom today.</p>
+                    <p class="text-white-50 mt-3">Start your journey to professional success today.</p>
                 </div>
 
                 <div class="row justify-content-center align-items-center g-4">
                     <!-- Premium Package (15k) - First & Highlighted -->
                     <div class="col-lg-4 col-md-6 order-1 order-lg-1" data-aos="zoom-in" data-aos-delay="200">
-                        <div class="pricing-card premium">
+                        <div class="pricing-card premium" onclick="window.location.href='register.html'">
                             <div class="pricing-badge">BEST VALUE</div>
                             <h3 class="mt-3">Premium Access</h3>
                             <div class="price-tag">₦15,000</div>
-                            <p class="text-accent mb-0 fw-bold">Maximize Your Earnings</p>
+                            <p class="text-accent mb-0 fw-bold">Maximize Your Potential</p>
                             
                             <ul class="package-features">
                                 <li><i class="fa-solid fa-check"></i> All Features Unlocked</li>
                                 <li><i class="fa-solid fa-check"></i> Priority Gig Matching</li>
-                                <li><i class="fa-solid fa-check"></i> Higher Earning Rates</li>
+                                <li><i class="fa-solid fa-check"></i> Premium Rewards Access</li>
                                 <li><i class="fa-solid fa-check"></i> Advanced SkillUp Courses</li>
                                 <li><i class="fa-solid fa-check"></i> 24/7 Priority Support</li>
                             </ul>
@@ -873,14 +992,14 @@
 
                     <!-- Standard Package (10k) -->
                     <div class="col-lg-4 col-md-6 order-2 order-lg-2" data-aos="fade-up" data-aos-delay="400">
-                        <div class="pricing-card">
+                        <div class="pricing-card" onclick="window.location.href='register.html'">
                             <h3 class="mt-3">Standard Access</h3>
                             <div class="price-tag">₦10,000</div>
                             <p class="text-white-50 mb-0">Start Your Journey</p>
                             
                             <ul class="package-features">
                                 <li><i class="fa-solid fa-check"></i> Access to Gigs</li>
-                                <li><i class="fa-solid fa-check"></i> Daily Snap Earnings</li>
+                                <li><i class="fa-solid fa-check"></i> Social Activity Rewards</li>
                                 <li><i class="fa-solid fa-check"></i> Basic SkillUp Access</li>
                                 <li><i class="fa-solid fa-check"></i> Community Support</li>
                             </ul>
@@ -911,7 +1030,7 @@
                                 </h2>
                                 <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#celesteAccordion">
                                     <div class="accordion-body">
-                                        Celeste is a comprehensive digital growth platform that empowers you to earn, learn, and build influence. We combine gig economy features, social media rewards, and skill development into one seamless ecosystem.
+                                        Celeste is a comprehensive digital growth platform that empowers you to earn, learn, and build influence. We combine gig economy features, social media engagement, and skill development into one seamless ecosystem.
                                     </div>
                                 </div>
                             </div>
@@ -924,7 +1043,7 @@
                                 </h2>
                                 <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#celesteAccordion">
                                     <div class="accordion-body">
-                                        Celeste Gigs connects you with people who need tasks completed. You can browse available gigs, offer your services, and get paid securely through our platform once the job is done to the client's satisfaction.
+                                        Celeste Gigs connects you with people who need tasks completed. You can browse available gigs, offer your services, and receive compensation securely through our platform once the job is done.
                                     </div>
                                 </div>
                             </div>
@@ -932,12 +1051,12 @@
                             <div class="accordion-item">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
-                                        Can I really earn by playing games?
+                                        Can I really get rewards by playing games?
                                     </button>
                                 </h2>
                                 <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#celesteAccordion">
                                     <div class="accordion-body">
-                                        Yes! With our "Play & Earn" feature, you can play entertaining games on the platform and earn real monetary rewards that are paid directly to your bank account. No hidden steps, just fun and earnings.
+                                        Yes! With our "Play & Engage" feature, you can play entertaining games on the platform and compete for rewards. No hidden steps, just fun and engagement.
                                     </div>
                                 </div>
                             </div>
@@ -963,7 +1082,7 @@
                                 </h2>
                                 <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#celesteAccordion">
                                     <div class="accordion-body">
-                                        Absolutely! Celeste is a universal movement. Whether you are in Africa, Asia, Europe, or the Americas, you can join, participate, and earn. All you need is a smartphone and determination.
+                                        Absolutely! Celeste is a universal movement. Whether you are in Africa, Asia, Europe, or the Americas, you can join, participate, and grow. All you need is a smartphone and determination.
                                     </div>
                                 </div>
                             </div>
@@ -971,12 +1090,12 @@
                             <div class="accordion-item">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
-                                        How does the Snapchat earning feature work?
+                                        How does the Snapchat engagement feature work?
                                     </button>
                                 </h2>
                                 <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#celesteAccordion">
                                     <div class="accordion-body">
-                                        It's simple: we provide an official daily post. You upload it to your Snapchat story, use our official hashtags, and once verified by our team, you get paid for that post. It's an easy daily earning opportunity.
+                                        It's simple: we provide an official daily post. You upload it to your Snapchat story, use our official hashtags, and once verified by our team, you receive rewards for that post. It's an easy daily engagement opportunity.
                                     </div>
                                 </div>
                             </div>
@@ -984,12 +1103,12 @@
                             <div class="accordion-item">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq7">
-                                        Is my data and money secure?
+                                        Is my data secure?
                                     </button>
                                 </h2>
                                 <div id="faq7" class="accordion-collapse collapse" data-bs-parent="#celesteAccordion">
                                     <div class="accordion-body">
-                                        Security is our top priority. We use robust security measures to protect your personal data and ensure that all transactions and payouts are processed safely and transparently.
+                                        Security is our top priority. We use robust security measures to protect your personal data and ensure that all transactions are processed safely and transparently.
                                     </div>
                                 </div>
                             </div>
@@ -1004,7 +1123,7 @@
         <section class="cta-section py-5 text-center">
             <div class="container py-4" data-aos="zoom-in">
                 <h2 class="display-5 fw-bold mb-3">Ready to Join the Movement?</h2>
-                <p class="lead text-white-50 mb-4">Don't just watch others succeed. Be part of the global opportunity and start your journey to financial independence today.</p>
+                <p class="lead text-white-50 mb-4">Don't just watch others succeed. Be part of the global opportunity and start your journey to professional independence today.</p>
                 <a href="register.html" class="btn btn-glow-accent btn-lg px-5 py-3 rounded-pill fw-bold">Register Now</a>
             </div>
         </section>
@@ -1015,12 +1134,12 @@
                 <div class="row gy-4">
                     <div class="col-lg-5 col-md-6">
                         <img src="assets/logo.svg" alt="Celeste" class="footer-logo">
-                        <p class="text-white-50">Empowering individuals to earn, grow, and build influence through smart digital participation.</p>
+                        <p class="text-white-50">Empowering individuals to grow and build influence through smart digital participation.</p>
                         <div class="social-links mt-4">
-                            <a href="#"><i class="fa-brands fa-twitter"></i></a>
-                            <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-                            <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                            <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                            <a href="register.html"><i class="fa-brands fa-twitter"></i></a>
+                            <a href="register.html"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="register.html"><i class="fa-brands fa-instagram"></i></a>
+                            <a href="register.html"><i class="fa-brands fa-linkedin-in"></i></a>
                         </div>
                     </div>
                     
@@ -1037,7 +1156,7 @@
                     
                     <div class="col-lg-4 col-md-6 footer-links">
                         <h5>Newsletter</h5>
-                        <p class="text-white-50 small">Subscribe to get the latest updates and earning tips.</p>
+                        <p class="text-white-50 small">Subscribe to get the latest updates and tips.</p>
                         <form class="mt-3">
                             <div class="input-group">
                                 <input type="email" class="form-control bg-transparent text-white border-secondary" placeholder="Your Email">
@@ -1077,6 +1196,16 @@
                     $('.navbar').addClass('navbar-scrolled');
                 } else {
                     $('.navbar').removeClass('navbar-scrolled');
+                }
+            });
+
+            // Sticky Button Logic
+            $(window).scroll(function() {
+                var heroHeight = $('.hero-section').outerHeight() || 500;
+                if ($(this).scrollTop() > heroHeight) {
+                    $('.mobile-sticky-signup').addClass('show');
+                } else {
+                    $('.mobile-sticky-signup').removeClass('show');
                 }
             });
             

@@ -1,0 +1,10 @@
+User-agent: *
+Disallow: /admin.html
+Disallow: /payment.html
+Disallow: /*.js$
+Disallow: /*.js?*
+Disallow: /firebase-init.js
+Disallow: /app.js
+Disallow: /admin.js
+
+Sitemap: https://celeste.ng/sitemap.xml
