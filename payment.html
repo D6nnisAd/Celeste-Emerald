@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Payment - Celeste</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Mono:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome 6 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- AOS Animation CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --deep-green: #1a3c0e;
+            --accent-green: #82c91e;
+            --warning-red: #ff4757;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--deep-green);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at center, #1f4512 0%, #1a3c0e 100%);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .payment-container {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .payment-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.6s ease-out;
+            position: relative;
+        }
+        
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(26, 60, 14, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 24px;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255,255,255,0.1);
+            border-top: 4px solid var(--accent-green);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(130, 201, 30, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: var(--accent-green);
+            font-size: 1.5rem;
+            box-shadow: 0 0 20px rgba(130, 201, 30, 0.2);
+        }
+
+        .page-title {
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Warning Box */
+        .warning-box {
+            background: rgba(255, 71, 87, 0.1);
+            border: 1px solid rgba(255, 71, 87, 0.3);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .warning-icon {
+            color: var(--warning-red);
+            font-size: 1.2rem;
+            margin-top: 2px;
+        }
+
+        .warning-text {
+            color: #ff6b81;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        .warning-text strong {
+            color: var(--warning-red);
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        /* Order Summary */
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .summary-val {
+            color: white;
+            font-weight: 600;
+        }
+
+        .summary-val.highlight {
+            color: var(--accent-green);
+        }
+
+        /* Bank Details Box */
+        .bank-details-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            color: #1a3c0e;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .bank-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #666;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .bank-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: #000;
+        }
+
+        .account-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f1f3f5;
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .account-number {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #000;
+            letter-spacing: 1px;
+        }
+
+        .copy-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            background: white;
+            color: #1a3c0e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .copy-btn:hover {
+            background: var(--accent-green);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .copy-btn:active {
+            transform: scale(0.95);
+        }
+
+        .account-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-align: center;
+            color: #444;
+            border-top: 1px dashed #ccc;
+            padding-top: 0.8rem;
+        }
+
+        /* Timer */
+        .timer-container {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .timer-label {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 0.2rem;
+        }
+
+        .timer-val {
+            color: var(--warning-red);
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        /* Action Button */
+        .btn-confirm {
+            width: 100%;
+            background-color: var(--accent-green);
+            color: var(--deep-green);
+            border: none;
+            border-radius: 50px;
+            padding: 16px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(130, 201, 30, 0.3);
+        }
+
+        .btn-confirm:hover {
+            background-color: #95e02d;
+            box-shadow: 0 0 30px rgba(130, 201, 30, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* Support Text */
+        .support-text {
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 2rem;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        .support-link {
+            color: var(--accent-green);
+            text-decoration: underline;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .support-link:hover {
+            color: #fff;
+        }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1050;
+        }
+        
+        .custom-toast {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(5px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="payment-container">
+        <div class="payment-card">
+            <!-- Loading Overlay -->
+            <div id="loadingOverlay" class="loading-overlay">
+                <div class="spinner"></div>
+            </div>
+            
+            <div class="header-icon">
+                <i class="fa-solid fa-lock"></i>
+            </div>
+            
+            <h1 class="page-title">Secure Payment</h1>
+
+            <div class="warning-box">
+                <i class="fa-solid fa-triangle-exclamation warning-icon"></i>
+                <div class="warning-text">
+                    <strong>Payment Warning</strong>
+                    Please do not use OPAY or PALMPAY for this transaction to avoid network delays.
+                </div>
+            </div>
+
+            <!-- Summary Section -->
+            <div class="mb-4">
+                <div class="summary-row">
+                    <span>Selected Package</span>
+                    <span class="summary-val highlight" id="pkgName">Loading...</span>
+                </div>
+                <div class="summary-row">
+                    <span>Total Amount</span>
+                    <span class="summary-val" id="pkgPrice">Loading...</span>
+                </div>
+                <div class="summary-row">
+                    <span>Email</span>
+                    <span class="summary-val" id="userEmail" style="font-weight: 400; font-size: 0.9rem;">...</span>
+                </div>
+            </div>
+
+            <!-- Bank Details Section -->
+            <div class="bank-details-card">
+                <span class="bank-label">Bank Transfer To</span>
+                <div class="bank-name" id="displayBankName">Loading...</div>
+                
+                <div class="account-wrapper">
+                    <span class="account-number" id="accountNumber">...</span>
+                    <button class="copy-btn" id="copyBtn" title="Copy Account Number">
+                        <i class="fa-regular fa-copy"></i>
+                    </button>
+                </div>
+                
+                <div class="account-name" id="displayAccountName">Loading...</div>
+            </div>
+
+            <!-- Timer Section -->
+            <div class="timer-container">
+                <div class="timer-label">Session expires in</div>
+                <div class="timer-val" id="countdown">30:00</div>
+            </div>
+
+            <!-- Action Button -->
+            <button class="btn btn-confirm" id="btnConfirm">
+                I have made payment
+            </button>
+            
+            <!-- Support Text -->
+            <div class="support-text">
+                If you need more explanation on Animo, or you have any issue with making a payment, 
+                <a href="#" class="support-link" id="supportLinkAnchor">click here to contact our Support Team.</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-container">
+        <div class="custom-toast" id="copyToast">
+            <i class="fa-solid fa-check-circle text-success"></i> Copied to clipboard!
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js"></script>
+    
+    <script type="module">
+        import { db, doc, getDoc } from "./firebase-init.js";
+
+        AOS.init();
+        
+        // Cache support link
+        let supportLink = '#';
+
+        // 1. Fetch Data
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Local Storage Logic
+            const pkgName = localStorage.getItem('selectedPackage') || 'Standard Plan';
+            const pkgPrice = localStorage.getItem('selectedAmount') || '10000';
+            const email = localStorage.getItem('userEmail') || 'user@example.com';
+
+            document.getElementById('pkgName').innerText = pkgName;
+            document.getElementById('pkgPrice').innerText = '₦' + parseInt(pkgPrice).toLocaleString();
+            document.getElementById('userEmail').innerText = email;
+
+            startTimer(30 * 60);
+
+            // Firestore Logic
+            try {
+                const docRef = doc(db, "settings", "global");
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    
+                    // Bank Details
+                    document.getElementById('displayBankName').innerText = data.bankName || "Unknown Bank";
+                    document.getElementById('accountNumber').innerText = data.accountNumber || "0000000000";
+                    document.getElementById('displayAccountName').innerText = data.accountName || "Celeste Ventures";
+                    
+                    // Support Link
+                    if(data.supportLink) {
+                        supportLink = data.supportLink;
+                        document.getElementById('supportLinkAnchor').href = supportLink;
+                    }
+                    
+                } else {
+                    console.log("No settings found");
+                    // Default values if DB is empty
+                    document.getElementById('displayBankName').innerText = "Moniepoint MFB";
+                    document.getElementById('accountNumber').innerText = "8123456789";
+                    document.getElementById('displayAccountName').innerText = "Celeste Global";
+                }
+            } catch (error) {
+                console.error("Error fetching details:", error);
+            } finally {
+                // Remove Loading Overlay
+                document.getElementById('loadingOverlay').style.display = 'none';
+            }
+        });
+
+        // 2. Attach Events inside Module
+        document.getElementById('copyBtn').addEventListener('click', () => {
+            const accNum = document.getElementById('accountNumber').innerText;
+            navigator.clipboard.writeText(accNum).then(() => {
+                const toast = document.getElementById('copyToast');
+                toast.style.display = 'flex';
+                setTimeout(() => {
+                    toast.style.display = 'none';
+                }, 2000);
+            });
+        });
+
+        document.getElementById('btnConfirm').addEventListener('click', () => {
+            // Logic to confirm payment
+            // Check if we have a support link to redirect to after confirmation
+            if(supportLink && supportLink !== '#') {
+                if(confirm("Have you successfully made the payment? Click OK to proceed to our support/confirmation channel.")) {
+                    window.location.href = supportLink;
+                }
+            } else {
+                 alert("Payment confirmation submitted! We are verifying your transaction.");
+            }
+        });
+
+        function startTimer(duration) {
+            let timer = duration, minutes, seconds;
+            const display = document.getElementById('countdown');
+            
+            const interval = setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    clearInterval(interval);
+                    display.textContent = "EXPIRED";
+                    display.style.color = "#ff4757";
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

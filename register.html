@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Celeste</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome 6 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --deep-green: #1a3c0e;
+            --accent-green: #82c91e;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--deep-green);
+            color: white;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at top right, #1f4512 0%, #1a3c0e 100%);
+        }
+
+        .register-container {
+            width: 100%;
+            max-width: 500px;
+            padding: 2rem;
+        }
+
+        .logo-area {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .logo-area img {
+            height: 40px;
+            margin-bottom: 1rem;
+        }
+
+        .page-title {
+            font-weight: 700;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.95rem;
+        }
+
+        /* Floating Inputs Styling */
+        .form-floating {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-floating > .form-control {
+            background-color: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 0;
+            color: white;
+            box-shadow: none;
+            padding-left: 0;
+            height: calc(3.5rem + 2px);
+            font-size: 1.1rem;
+        }
+
+        .form-floating > label {
+            color: rgba(255, 255, 255, 0.5);
+            padding-left: 0;
+            transition: all 0.3s ease;
+        }
+
+        .form-floating > .form-control:focus {
+            border-bottom: 2px solid var(--accent-green);
+            box-shadow: 0 10px 20px -10px rgba(130, 201, 30, 0.3);
+        }
+
+        .form-floating > .form-control:focus ~ label,
+        .form-floating > .form-control:not(:placeholder-shown) ~ label {
+            color: var(--accent-green);
+            transform: scale(0.85) translateY(-0.5rem) translateX(0);
+        }
+
+        /* Submit Button */
+        .btn-register {
+            width: 100%;
+            background-color: white;
+            color: var(--deep-green);
+            border: none;
+            border-radius: 50px;
+            padding: 14px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-register:hover {
+            background-color: var(--accent-green);
+            color: var(--deep-green);
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(130, 201, 30, 0.6);
+        }
+
+        .btn-register:disabled {
+            background-color: #cccccc;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 2rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .login-link a {
+            color: var(--accent-green);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="register-container">
+        <div class="logo-area">
+            <h1 class="page-title">Create Account</h1>
+            <p class="page-subtitle">Join the movement and start earning today.</p>
+        </div>
+
+        <form id="registerForm">
+            <div class="form-floating">
+                <input type="text" class="form-control" id="fullName" placeholder="Full Name" required>
+                <label for="fullName">Full Name</label>
+            </div>
+
+            <div class="form-floating">
+                <input type="text" class="form-control" id="username" placeholder="Username" required>
+                <label for="username">Username</label>
+            </div>
+
+            <div class="form-floating">
+                <input type="email" class="form-control" id="email" placeholder="Email Address" required>
+                <label for="email">Email Address</label>
+            </div>
+
+            <div class="form-floating">
+                <input type="password" class="form-control" id="password" placeholder="Password" required>
+                <label for="password">Password</label>
+            </div>
+
+            <button type="submit" id="submitBtn" class="btn btn-register">
+                Get Started
+            </button>
+
+            <div class="login-link">
+                Already have an account? <a href="#">Login here</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Logic -->
+    <script type="module">
+        import { registerUser } from "./app.js";
+
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.innerText;
+            
+            // Get Values
+            const email = document.getElementById('email').value.trim();
+            const fullName = document.getElementById('fullName').value.trim();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+
+            if(!email || !fullName || !username || !password) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            // UI Loading
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Creating Account...";
+
+            try {
+                // Call centralized auth function
+                await registerUser(email, password, fullName, username);
+                
+                // Redirect on success
+                window.location.href = 'packages.html';
+
+            } catch (error) {
+                console.error(error);
+                let msg = "Registration failed. Please try again.";
+                
+                if (error.code === 'auth/email-already-in-use') {
+                    msg = "This email is already registered.";
+                } else if (error.code === 'auth/weak-password') {
+                    msg = "Password should be at least 6 characters.";
+                }
+                
+                alert(msg);
+                submitBtn.disabled = false;
+                submitBtn.innerText = originalText;
+            }
+        });
+    </script>
+</body>
+</html>

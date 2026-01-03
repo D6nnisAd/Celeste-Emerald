@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celeste</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome 6 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- AOS Animation CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --deep-green: #1a3c0e;
+            --accent-green: #82c91e;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--deep-green);
+            color: white;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* Page Wrapper to fix horizontal overflow */
+        .page-wrapper {
+            width: 100%;
+            overflow: hidden;
+        }
+
+        /* Utility Classes */
+        .text-accent {
+            color: var(--accent-green) !important;
+        }
+        
+        .section-separator {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .section-title {
+            font-weight: 700;
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: var(--accent-green);
+            border-radius: 2px;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            padding: 1.5rem 0;
+            transition: all 0.4s ease;
+            z-index: 1000;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            left: 0;
+            background: transparent;
+        }
+
+        .navbar.navbar-scrolled {
+            background: rgba(255, 255, 255, 0.02) !important;
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1rem 0 !important;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: white !important;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-brand img {
+            height: 25px; 
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-weight: 500;
+            margin: 0 15px;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-green) !important;
+        }
+
+        .navbar-toggler {
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            padding: 0;
+        }
+        
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+
+        /* Buttons */
+        .btn-glow {
+            background-color: white;
+            color: #1a3c0e;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 32px;
+            font-weight: 600;
+            font-size: 1rem;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .btn-glow:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.9);
+            color: #1a3c0e;
+            background-color: #fff;
+        }
+        
+        .btn-glow-accent {
+            background-color: var(--accent-green);
+            color: var(--deep-green);
+            box-shadow: 0 0 15px rgba(130, 201, 30, 0.5);
+        }
+        
+        .btn-glow-accent:hover {
+            background-color: #95e02d;
+            color: var(--deep-green);
+            box-shadow: 0 0 25px rgba(130, 201, 30, 0.7);
+        }
+
+        .btn-outline-custom {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+            border-radius: 50px;
+            padding: 10px 32px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .btn-outline-custom:hover {
+            background: white;
+            color: var(--deep-green);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background: url('assets/desktop-background.jpg') no-repeat center center;
+            background-size: cover;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            padding-top: 80px;
+        }
+
+        .hero-title-wrapper {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .hero-logo-large {
+            height: 50px;
+            width: auto;
+            display: block;
+        }
+
+        .hero-description {
+            font-size: 16px; 
+            font-weight: 400;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            max-width: 550px;
+            color: #f0f0f0;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .hero-image-wrapper {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .hero-img-desktop {
+            position: absolute;
+            bottom: 0;
+            right: 10%; 
+            height: 90vh;
+            width: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        .hero-img-mobile {
+            display: none;
+        }
+
+        /* About Section */
+        .feature-pill {
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 50px;
+            padding: 12px 30px;
+            font-weight: 500;
+            width: fit-content;
+            transition: all 0.3s ease;
+            background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 100%);
+            margin-bottom: 0;
+            cursor: default;
+        }
+
+        .feature-pill:hover {
+            border-color: var(--accent-green);
+            background: rgba(130, 201, 30, 0.1);
+            transform: translateX(10px);
+        }
+        
+        .pulse-dot {
+            width: 10px;
+            height: 10px;
+            background-color: var(--accent-green);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 0 rgba(130, 201, 30, 0.4);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(130, 201, 30, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(130, 201, 30, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(130, 201, 30, 0); }
+        }
+
+        .about-image {
+            max-height: 600px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+        }
+
+        /* Features Section */
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            height: 100%;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top right, rgba(130, 201, 30, 0.1), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-green);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon-wrapper {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(130, 201, 30, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            color: var(--accent-green);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon-wrapper {
+            background: var(--accent-green);
+            color: var(--deep-green);
+            transform: scale(1.1);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* Packages Section */
+        .pricing-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 25px;
+            padding: 3rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pricing-card.premium {
+            border: 2px solid var(--accent-green);
+            background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(130, 201, 30, 0.05));
+            box-shadow: 0 0 30px rgba(130, 201, 30, 0.15);
+            transform: scale(1.05);
+            z-index: 2;
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-green);
+            color: var(--deep-green);
+            padding: 5px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .price-tag {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin: 1.5rem 0;
+            color: white;
+            line-height: 1;
+        }
+
+        .price-tag span {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .package-features {
+            list-style: none;
+            padding: 0;
+            margin: 2rem 0;
+            flex-grow: 1;
+        }
+
+        .package-features li {
+            margin-bottom: 1rem;
+            color: rgba(255,255,255,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .package-features li i {
+            color: var(--accent-green);
+            margin-right: 10px;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .pricing-card.premium:hover {
+            transform: scale(1.05) translateY(-5px);
+        }
+
+        /* FAQ Section */
+        .accordion {
+            --bs-accordion-bg: transparent;
+            --bs-accordion-border-color: rgba(255,255,255,0.1);
+            --bs-accordion-btn-color: white;
+            --bs-accordion-active-color: var(--accent-green);
+            --bs-accordion-active-bg: rgba(255,255,255,0.05);
+        }
+
+        .accordion-item {
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px !important;
+            margin-bottom: 1rem;
+            background: transparent;
+            overflow: hidden;
+        }
+
+        .accordion-button {
+            font-weight: 500;
+            font-size: 1.1rem;
+            padding: 1.5rem;
+            box-shadow: none !important;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background-color: rgba(255,255,255,0.05);
+            color: var(--accent-green);
+        }
+
+        .accordion-button::after {
+            filter: invert(1);
+        }
+
+        .accordion-button:not(.collapsed)::after {
+            filter: invert(1) sepia(100%) saturate(1000%) hue-rotate(60deg);
+        }
+
+        .accordion-body {
+            color: rgba(255,255,255,0.8);
+            line-height: 1.7;
+            padding: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* CTA & Footer */
+        .cta-section {
+            background: linear-gradient(135deg, #1a3c0e 0%, #152e0b 100%);
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .footer {
+            background-color: #0f2408;
+            padding: 4rem 0 2rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .footer-logo {
+            height: 30px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--accent-green);
+            color: var(--deep-green);
+            transform: translateY(-3px);
+        }
+        
+        .footer-links h5 {
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent-green);
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 991px) {
+            body {
+                overflow-y: auto; 
+            }
+
+            .navbar {
+                background-color: transparent;
+                padding: 1.5rem 0;
+            }
+
+            .navbar .btn-glow.d-lg-none {
+                padding: 14px 40px;
+                font-size: 1.1rem;
+            }
+
+            .hero-section {
+                background: url('assets/mobile-background.jpg') no-repeat center bottom;
+                background-size: cover;
+                height: auto;
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                padding-bottom: 0;
+                overflow: hidden; 
+            }
+
+            .hero-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                padding-top: 150px;
+                padding-bottom: 20px;
+                justify-content: flex-start !important;
+                height: auto !important;
+                flex: 0 0 auto;
+            }
+
+            .hero-title-wrapper {
+                justify-content: center;
+                width: 100%;
+                margin-bottom: 15px;
+            }
+            
+            .hero-logo-large {
+                height: 40px;
+            }
+
+            .hero-description {
+                font-size: 16px;
+                max-width: 100%;
+                padding: 0 15px;
+                margin-bottom: 30px;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+                width: 100%;
+            }
+
+            .hero-img-desktop {
+                display: none;
+            }
+
+            .hero-image-wrapper {
+                position: relative;
+                width: 100%;
+                height: auto;
+                z-index: 1; 
+                display: flex;
+                align-items: flex-end; 
+                justify-content: center; 
+                margin-top: 40px;
+            }
+
+            .hero-img-mobile {
+                display: block;
+                position: relative; 
+                width: 100%; 
+                height: auto;
+                max-width: none;
+                object-fit: contain;
+                margin-bottom: 0; 
+            }
+            
+            .feature-pill {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .about-image {
+                margin-top: 40px;
+                width: 100%;
+            }
+
+            .pricing-card.premium {
+                transform: scale(1);
+                margin-bottom: 2rem;
+            }
+            
+            .pricing-card.premium:hover {
+                transform: translateY(-5px);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-wrapper">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <!-- Logo -->
+                <a class="navbar-brand" href="index.html">
+                    <img src="assets/logo.svg" alt="Celeste Logo">
+                </a>
+
+                <!-- Mobile: Register Button (Visible only on < lg) -->
+                <a href="register.html" class="btn btn-glow d-lg-none ms-auto me-3" style="font-size: 0.9rem;">Register</a>
+
+                <!-- Mobile: Toggler -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+                <!-- Desktop: Links & Button -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#about">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#features">Features</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#packages">Packages</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#faqs">Faqs</a>
+                        </li>
+                    </ul>
+                    <!-- Desktop: Register Button (Visible only on lg) -->
+                    <a href="register.html" class="btn btn-glow d-none d-lg-inline-block">Register</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <header class="hero-section">
+            <div class="container h-100">
+                <div class="row h-100">
+                    <div class="col-lg-6 col-12 d-flex flex-column justify-content-center h-100 hero-content" data-aos="fade-right" data-aos-duration="1000">
+                        
+                        <div class="hero-title-wrapper">
+                            <img src="assets/logo.svg" alt="Celeste" class="hero-logo-large">
+                        </div>
+
+                        <p class="hero-description">
+                            earn, grow, and build influence online through smart participation and collaboration.
+                        </p>
+
+                        <div class="hero-buttons">
+                            <a href="register.html" class="btn btn-glow">Signup</a>
+                            <a href="#about" class="btn btn-outline-custom">Learn-more</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hero Images (Wrapper) -->
+            <div class="hero-image-wrapper">
+                <!-- Desktop Image -->
+                <img src="assets/hero-image-desktop.png" alt="Man in suit" class="hero-img-desktop" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
+                <!-- Mobile Image -->
+                <img src="assets/hero-image-mobile.png" alt="Man in suit" class="hero-img-mobile" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+            </div>
+        </header>
+
+        <!-- About Section -->
+        <section id="about" class="section-separator py-5 position-relative">
+            <div class="container py-5">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 mb-5 mb-lg-0 pe-lg-5" data-aos="fade-right">
+                        <div class="mb-2">
+                            <h2 class="fw-bold lh-1 mb-0">
+                                <span class="d-block fs-2 fw-normal mb-1">What is <span class="text-accent">?</span></span>
+                                <span class="display-4 fw-bold">Celeste</span>
+                            </h2>
+                        </div>
+                        
+                        <p class="fs-6 mt-4 mb-4 text-light opacity-90" style="line-height: 1.8;">
+                            CELESTE is a digital growth and earning platform designed to help individuals <span class="text-accent fw-medium">earn</span>, <span class="text-accent fw-medium">grow</span>, and <span class="text-accent fw-medium">build influence</span> online through smart participation and collaboration.
+                        </p>
+                        
+                        <p class="mb-4">It is a movement created for people who want to:</p>
+                        
+                        <div class="d-flex flex-column gap-3 mb-5">
+                            <div class="feature-pill">
+                                Earn in EURO
+                            </div>
+                            <div class="feature-pill">
+                                Build digital income streams
+                            </div>
+                            <div class="feature-pill">
+                                Grow through teamwork and consistency
+                            </div>
+                            <div class="feature-pill">
+                                Be part of a global opportunity
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex align-items-center text-white small">
+                            <span class="pulse-dot me-2"></span> Join the Movement now!
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-6 text-center" data-aos="fade-left">
+                        <img src="assets/about.jpg" alt="About Celeste" class="img-fluid rounded-4 about-image">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="section-separator py-5">
+            <div class="container py-5">
+                <div class="text-center mb-5" data-aos="fade-up">
+                    <h2 class="section-title display-5">Our Features</h2>
+                    <p class="text-white-50 mt-3" style="max-width: 600px; margin: 0 auto;">Unlock your potential with our powerful suite of tools designed for growth and earnings.</p>
+                </div>
+
+                <div class="row g-4">
+                    <!-- Celeste Gigs -->
+                    <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                        <div class="feature-card">
+                            <div class="feature-icon-wrapper">
+                                <i class="fa-solid fa-briefcase"></i>
+                            </div>
+                            <h3>Celeste Gigs</h3>
+                            <p>Find work, offer services, and get paid securely. Connect instantly with verified workers or clients through our trusted network.</p>
+                        </div>
+                    </div>
+
+                    <!-- Earn As You Snap -->
+                    <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                        <div class="feature-card">
+                            <div class="feature-icon-wrapper">
+                                <i class="fa-brands fa-snapchat"></i>
+                            </div>
+                            <h3>Earn As You Snap!</h3>
+                            <p>Post Celeste content on your Snapchat story and earn daily. Post the official content, tag Celeste, and get rewarded per post.</p>
+                        </div>
+                    </div>
+
+                    <!-- Play & Earn -->
+                    <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                        <div class="feature-card">
+                            <div class="feature-icon-wrapper">
+                                <i class="fa-solid fa-gamepad"></i>
+                            </div>
+                            <h3>Play & Earn</h3>
+                            <p>The fun just got real! Play entertaining games and earn real rewards paid directly to your bank account. No gimmicks, just fun.</p>
+                        </div>
+                    </div>
+
+                    <!-- Celeste Yaps -->
+                    <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="400">
+                        <div class="feature-card">
+                            <div class="feature-icon-wrapper">
+                                <i class="fa-solid fa-microphone-lines"></i>
+                            </div>
+                            <h3>Celeste Yaps</h3>
+                            <p>Earn by sharing your voice. Create engaging content about Celeste on social media and get rewarded for spreading the word.</p>
+                        </div>
+                    </div>
+
+                    <!-- Celeste SkillUp -->
+                    <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="500">
+                        <div class="feature-card">
+                            <div class="feature-icon-wrapper">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                            </div>
+                            <h3>Celeste SkillUp</h3>
+                            <p>Learn high-demand digital skills like marketing and tech. We equip you with the tools and mentorship to succeed.</p>
+                        </div>
+                    </div>
+
+                    <!-- Universal Access -->
+                    <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="600">
+                        <div class="feature-card">
+                            <div class="feature-icon-wrapper">
+                                <i class="fa-solid fa-earth-africa"></i>
+                            </div>
+                            <h3>Celeste Universal</h3>
+                            <p>A global movement without boundaries. Whether you are in Africa, Asia, or Europe, you can earn and grow with Celeste.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Packages Section -->
+        <section id="packages" class="section-separator py-5">
+            <div class="container py-5">
+                <div class="text-center mb-5" data-aos="fade-up">
+                    <h2 class="section-title display-5">Choose Your Package</h2>
+                    <p class="text-white-50 mt-3">Start your journey to financial freedom today.</p>
+                </div>
+
+                <div class="row justify-content-center align-items-center g-4">
+                    <!-- Premium Package (15k) - First & Highlighted -->
+                    <div class="col-lg-4 col-md-6 order-1 order-lg-1" data-aos="zoom-in" data-aos-delay="200">
+                        <div class="pricing-card premium">
+                            <div class="pricing-badge">BEST VALUE</div>
+                            <h3 class="mt-3">Premium Access</h3>
+                            <div class="price-tag">₦15,000</div>
+                            <p class="text-accent mb-0 fw-bold">Maximize Your Earnings</p>
+                            
+                            <ul class="package-features">
+                                <li><i class="fa-solid fa-check"></i> All Features Unlocked</li>
+                                <li><i class="fa-solid fa-check"></i> Priority Gig Matching</li>
+                                <li><i class="fa-solid fa-check"></i> Higher Earning Rates</li>
+                                <li><i class="fa-solid fa-check"></i> Advanced SkillUp Courses</li>
+                                <li><i class="fa-solid fa-check"></i> 24/7 Priority Support</li>
+                            </ul>
+                            
+                            <a href="register.html" class="btn btn-glow-accent w-100 py-3 rounded-pill fw-bold">Get Started Now</a>
+                        </div>
+                    </div>
+
+                    <!-- Standard Package (10k) -->
+                    <div class="col-lg-4 col-md-6 order-2 order-lg-2" data-aos="fade-up" data-aos-delay="400">
+                        <div class="pricing-card">
+                            <h3 class="mt-3">Standard Access</h3>
+                            <div class="price-tag">₦10,000</div>
+                            <p class="text-white-50 mb-0">Start Your Journey</p>
+                            
+                            <ul class="package-features">
+                                <li><i class="fa-solid fa-check"></i> Access to Gigs</li>
+                                <li><i class="fa-solid fa-check"></i> Daily Snap Earnings</li>
+                                <li><i class="fa-solid fa-check"></i> Basic SkillUp Access</li>
+                                <li><i class="fa-solid fa-check"></i> Community Support</li>
+                            </ul>
+                            
+                            <a href="register.html" class="btn btn-outline-custom w-100 py-3 rounded-pill">Choose Standard</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faqs" class="section-separator py-5">
+            <div class="container py-5">
+                <div class="text-center mb-5" data-aos="fade-up">
+                    <h2 class="section-title display-5">Frequently Asked Questions</h2>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-8" data-aos="fade-up" data-aos-delay="200">
+                        <div class="accordion" id="celesteAccordion">
+                            
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                        What exactly is Celeste?
+                                    </button>
+                                </h2>
+                                <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#celesteAccordion">
+                                    <div class="accordion-body">
+                                        Celeste is a comprehensive digital growth platform that empowers you to earn, learn, and build influence. We combine gig economy features, social media rewards, and skill development into one seamless ecosystem.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                        How do Celeste Gigs work?
+                                    </button>
+                                </h2>
+                                <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#celesteAccordion">
+                                    <div class="accordion-body">
+                                        Celeste Gigs connects you with people who need tasks completed. You can browse available gigs, offer your services, and get paid securely through our platform once the job is done to the client's satisfaction.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                        Can I really earn by playing games?
+                                    </button>
+                                </h2>
+                                <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#celesteAccordion">
+                                    <div class="accordion-body">
+                                        Yes! With our "Play & Earn" feature, you can play entertaining games on the platform and earn real monetary rewards that are paid directly to your bank account. No hidden steps, just fun and earnings.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                        What skills can I learn on Celeste SkillUp?
+                                    </button>
+                                </h2>
+                                <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#celesteAccordion">
+                                    <div class="accordion-body">
+                                        The SkillUp program focuses on high-demand modern digital skills. You can learn digital marketing, content creation strategies, tech-based skills, and more to help you succeed in the digital economy.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                                        Is Celeste available in my country?
+                                    </button>
+                                </h2>
+                                <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#celesteAccordion">
+                                    <div class="accordion-body">
+                                        Absolutely! Celeste is a universal movement. Whether you are in Africa, Asia, Europe, or the Americas, you can join, participate, and earn. All you need is a smartphone and determination.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                                        How does the Snapchat earning feature work?
+                                    </button>
+                                </h2>
+                                <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#celesteAccordion">
+                                    <div class="accordion-body">
+                                        It's simple: we provide an official daily post. You upload it to your Snapchat story, use our official hashtags, and once verified by our team, you get paid for that post. It's an easy daily earning opportunity.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq7">
+                                        Is my data and money secure?
+                                    </button>
+                                </h2>
+                                <div id="faq7" class="accordion-collapse collapse" data-bs-parent="#celesteAccordion">
+                                    <div class="accordion-body">
+                                        Security is our top priority. We use robust security measures to protect your personal data and ensure that all transactions and payouts are processed safely and transparently.
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="cta-section py-5 text-center">
+            <div class="container py-4" data-aos="zoom-in">
+                <h2 class="display-5 fw-bold mb-3">Ready to Join the Movement?</h2>
+                <p class="lead text-white-50 mb-4">Don't just watch others succeed. Be part of the global opportunity and start your journey to financial independence today.</p>
+                <a href="register.html" class="btn btn-glow-accent btn-lg px-5 py-3 rounded-pill fw-bold">Register Now</a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="row gy-4">
+                    <div class="col-lg-5 col-md-6">
+                        <img src="assets/logo.svg" alt="Celeste" class="footer-logo">
+                        <p class="text-white-50">Empowering individuals to earn, grow, and build influence through smart digital participation.</p>
+                        <div class="social-links mt-4">
+                            <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                            <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                            <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-6 footer-links">
+                        <h5>Quick Links</h5>
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="#about">About Us</a></li>
+                            <li><a href="#features">Features</a></li>
+                            <li><a href="#packages">Pricing</a></li>
+                            <li><a href="#faqs">FAQs</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-6 footer-links">
+                        <h5>Newsletter</h5>
+                        <p class="text-white-50 small">Subscribe to get the latest updates and earning tips.</p>
+                        <form class="mt-3">
+                            <div class="input-group">
+                                <input type="email" class="form-control bg-transparent text-white border-secondary" placeholder="Your Email">
+                                <button class="btn btn-glow-accent" type="button">Subscribe</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-5 pt-4 border-top border-secondary border-opacity-25">
+                    <p class="mb-0 text-white-50 small">&copy; 2024 Celeste. All Rights Reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Animation JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            // Initialize Animate On Scroll
+            AOS.init({
+                once: true,
+                offset: 50,
+                duration: 800
+            });
+
+            // Navbar Glassmorphism Scroll Effect
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 10) {
+                    $('.navbar').addClass('navbar-scrolled');
+                } else {
+                    $('.navbar').removeClass('navbar-scrolled');
+                }
+            });
+            
+            // Smooth Scrolling
+            $('a[href^="#"]').on('click', function(e) {
+                e.preventDefault();
+                var target = $(this.hash);
+                if (target.length) {
+                    $('html, body').animate({
+                        scrollTop: target.offset().top - 80
+                    }, 800);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
