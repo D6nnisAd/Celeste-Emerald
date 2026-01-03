@@ -378,37 +378,43 @@
                     supportLink = data.supportLink;
                 }
 
-                if (enablePaystack) {
+                if (enablePaystack === true) {
                     // Paystack Flow
                     const userEmail = localStorage.getItem('userEmail') || 'guest@celeste.com';
                     
-                    const paystack = new PaystackPop();
-                    paystack.newTransaction({
+                    // FIXED: Use standard PaystackPop.setup() instead of new PaystackPop()
+                    const handler = PaystackPop.setup({
                         key: 'pk_live_fc1db9ce1d317ab8f1aeca041b68b22c36594bad',
                         email: userEmail,
-                        amount: price * 100, // Paystack is in kobo
-                        onSuccess: (transaction) => {
+                        amount: price * 100, // Paystack expects Kobo
+                        currency: 'NGN',
+                        onClose: function() {
+                            // User closed the popup
+                            btn.innerText = originalText;
+                            btn.disabled = false;
+                        },
+                        callback: function(response) {
                             // On Success, redirect to Support Link (Telegram/WhatsApp group)
                             if(supportLink && supportLink.startsWith('http')) {
                                 window.location.href = supportLink; 
                             } else {
                                 alert("Payment Successful! Contact admin for access.");
+                                btn.innerText = "Paid";
                             }
-                        },
-                        onCancel: () => {
-                            btn.innerText = originalText;
-                            btn.disabled = false;
                         }
                     });
+                    
+                    handler.openIframe();
 
                 } else {
                     // Manual Flow
+                    console.log("Redirecting to manual payment (Paystack disabled or setting missing)");
                     window.location.href = 'payment.html';
                 }
 
             } catch (error) {
                 console.error("Error in package selection:", error);
-                // Fallback to manual if DB fails
+                // Fallback to manual if logic fails
                 window.location.href = 'payment.html';
             }
         };
