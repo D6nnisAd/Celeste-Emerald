@@ -44,8 +44,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(15, 36, 8, 0.98);
-            backdrop-filter: blur(10px);
+            background: #0f2408; /* Solid background to hide dashboard */
             z-index: 9999;
             display: flex;
             align-items: center;
@@ -53,14 +52,46 @@
             padding: 1rem;
         }
 
+        /* CARDLESS LOGIN FORM */
         .login-card {
+            background: transparent;
+            border: none;
+            padding: 0;
+            width: 100%;
+            max-width: 380px;
+            box-shadow: none;
+            text-align: center;
+        }
+        
+        .login-input {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 3rem;
-            border-radius: 20px;
+            border-radius: 12px;
+            color: white;
+            padding: 14px 20px;
+            font-size: 1rem;
             width: 100%;
-            max-width: 400px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .login-input:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent-green);
+            outline: none;
+            box-shadow: 0 0 15px rgba(130, 201, 30, 0.2);
+        }
+
+        .login-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .login-title {
+            font-weight: 700;
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 2rem;
+            letter-spacing: -1px;
         }
 
         /* Layout */
@@ -99,6 +130,45 @@
             padding: 2rem;
             margin-bottom: 2rem;
             box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .analytics-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            height: 100%;
+        }
+
+        .analytics-val {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            margin: 10px 0;
+        }
+
+        .analytics-label {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .table-dark-custom {
+            --bs-table-bg: transparent;
+            --bs-table-color: rgba(255,255,255,0.8);
+            --bs-table-border-color: rgba(255,255,255,0.05);
+        }
+        
+        .badge-status-new {
+            background: rgba(130, 201, 30, 0.15);
+            color: var(--accent-green);
+            border: 1px solid rgba(130, 201, 30, 0.3);
+        }
+        
+        .badge-status-returning {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         h2 {
@@ -142,6 +212,8 @@
         .btn-accent:hover {
             background-color: #95e02d;
             color: var(--deep-green);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(130, 201, 30, 0.4);
         }
 
         /* Toggle Switch */
@@ -162,6 +234,7 @@
             color: rgba(255,255,255,0.7);
             padding: 12px 0;
             font-size: 1.1rem;
+            cursor: pointer;
         }
         
         .nav-link:hover, .nav-link.active {
@@ -270,7 +343,7 @@
             }
             
             .login-card {
-                padding: 2rem;
+                padding: 1rem;
             }
         }
     </style>
@@ -279,16 +352,16 @@
 
     <!-- Login Overlay -->
     <div id="loginOverlay">
-        <div class="login-card text-center">
-            <h3 class="mb-4 text-white">Admin Access</h3>
+        <div class="login-card">
+            <h3 class="login-title">Admin Access</h3>
             <form id="loginForm">
-                <div class="mb-3">
-                    <input type="email" id="adminEmail" class="form-control" placeholder="Email" required>
+                <div>
+                    <input type="email" id="adminEmail" class="login-input" placeholder="Email Address" required>
                 </div>
-                <div class="mb-4">
-                    <input type="password" id="adminPassword" class="form-control" placeholder="Password" required>
+                <div>
+                    <input type="password" id="adminPassword" class="login-input" placeholder="Password" required>
                 </div>
-                <button type="submit" class="btn btn-accent w-100">Login</button>
+                <button type="submit" class="btn btn-accent w-100 py-3 rounded-pill fw-bold">Login</button>
             </form>
         </div>
     </div>
@@ -308,7 +381,12 @@
             </div>
             
             <div class="nav flex-column">
-                <a href="#" class="nav-link active"><i class="fa-solid fa-sliders me-2"></i> Settings</a>
+                <a href="#" class="nav-link active" id="nav-settings">
+                    <i class="fa-solid fa-sliders me-2"></i> Settings
+                </a>
+                <a href="#" class="nav-link" id="nav-analytics">
+                    <i class="fa-solid fa-chart-line me-2"></i> Analytics
+                </a>
             </div>
 
             <button id="logoutBtn" class="logout-btn">
@@ -327,7 +405,7 @@
             </div>
 
             <div class="d-flex justify-content-between align-items-center mb-4 mb-lg-5 desktop-title-row">
-                <h1 class="desktop-title mb-0">Global Settings</h1>
+                <h1 class="desktop-title mb-0" id="pageTitle">Global Settings</h1>
                 <div class="d-flex align-items-center ms-auto">
                     <span id="saveStatus" class="text-success me-3 small fw-bold" style="opacity: 0; transition: opacity 0.3s;">
                         <i class="fa-solid fa-check-circle"></i> Saved!
@@ -335,62 +413,138 @@
                 </div>
             </div>
 
-            <form id="settingsForm">
+            <!-- VIEW: SETTINGS -->
+            <div id="view-settings">
+                <form id="settingsForm">
+                    <!-- Payment Gateway -->
+                    <div class="card-custom">
+                        <h2>Payment Gateway</h2>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="pe-3">
+                                <h5 class="mb-1 text-white fs-6">Enable Paystack</h5>
+                                <p class="text-white-50 mb-0 small">Toggle ON for Paystack. OFF for Bank Transfer.</p>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="enablePaystack">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Support Link -->
+                    <div class="card-custom">
+                        <h2>Redirection</h2>
+                        <div class="mb-3">
+                            <label for="supportLink">Global Support/Group Link</label>
+                            <input type="url" class="form-control" id="supportLink" placeholder="https://t.me/..." required>
+                            <div class="form-text text-white-50 small">Where users are redirected after successful payment.</div>
+                        </div>
+                    </div>
+
+                    <!-- Manual Bank Details -->
+                    <div class="card-custom">
+                        <h2>Manual Bank Details</h2>
+                        <p class="text-white-50 small mb-4">Displayed when Paystack is OFF.</p>
+                        
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <label for="bankName">Bank Name</label>
+                                <input type="text" class="form-control" id="bankName" placeholder="e.g. Moniepoint MFB">
+                            </div>
+                            <div class="col-md-12">
+                                <label for="accountNumber">Account Number</label>
+                                <input type="text" class="form-control" id="accountNumber" placeholder="e.g. 1234567890">
+                            </div>
+                            <div class="col-md-12">
+                                <label for="accountName">Account Name</label>
+                                <input type="text" class="form-control" id="accountName" placeholder="e.g. Celeste Global">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Save Action -->
+                    <div class="d-flex justify-content-end pb-4">
+                        <button type="submit" class="btn btn-accent d-flex align-items-center w-100 justify-content-center w-md-auto">
+                            Save Changes
+                            <div class="loader" id="saveLoader"></div>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- VIEW: ANALYTICS -->
+            <div id="view-analytics" class="d-none">
                 
-                <!-- Payment Gateway -->
-                <div class="card-custom">
-                    <h2>Payment Gateway</h2>
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div class="pe-3">
-                            <h5 class="mb-1 text-white fs-6">Enable Paystack</h5>
-                            <p class="text-white-50 mb-0 small">Toggle ON for Paystack. OFF for Bank Transfer.</p>
+                <!-- Row 1: Traffic Overview -->
+                <div class="row g-3 mb-3">
+                    <div class="col-md-4">
+                        <div class="analytics-card">
+                            <div class="analytics-label">Total Hits (Live)</div>
+                            <div class="analytics-val" id="stat-total">0</div>
+                            <div class="small text-white-50">All time</div>
                         </div>
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="enablePaystack">
+                    </div>
+                    <div class="col-md-4">
+                        <div class="analytics-card">
+                            <div class="analytics-label">New Visitors</div>
+                            <div class="analytics-val" id="stat-new-users">0</div>
+                            <div class="small text-white-50">Unique Devices</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="analytics-card">
+                            <div class="analytics-label">Hits Today</div>
+                            <div class="analytics-val" id="stat-today">0</div>
+                            <div class="small text-white-50">Since Midnight</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Support Link -->
-                <div class="card-custom">
-                    <h2>Redirection</h2>
-                    <div class="mb-3">
-                        <label for="supportLink">Global Support/Group Link</label>
-                        <input type="url" class="form-control" id="supportLink" placeholder="https://t.me/..." required>
-                        <div class="form-text text-white-50 small">Where users are redirected after successful payment.</div>
+                <!-- Row 2: Funnel Overview -->
+                <div class="row g-3 mb-5">
+                    <div class="col-md-6">
+                        <div class="analytics-card">
+                            <div class="analytics-label">Registration Starts</div>
+                            <div class="analytics-val" id="stat-register">0</div>
+                            <div class="small text-white-50">On register.html</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="analytics-card">
+                            <div class="analytics-label">Checkout Initiated</div>
+                            <div class="analytics-val" id="stat-checkout">0</div>
+                            <div class="small text-white-50">On packages.html</div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Manual Bank Details -->
+                <!-- Live Table -->
                 <div class="card-custom">
-                    <h2>Manual Bank Details</h2>
-                    <p class="text-white-50 small mb-4">Displayed when Paystack is OFF.</p>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h2 class="border-0 mb-0 pb-0">Live Traffic (Last 100)</h2>
+                        <span class="badge bg-secondary" id="last-updated">Updating...</span>
+                    </div>
                     
-                    <div class="row g-3">
-                        <div class="col-md-12">
-                            <label for="bankName">Bank Name</label>
-                            <input type="text" class="form-control" id="bankName" placeholder="e.g. Moniepoint MFB">
-                        </div>
-                        <div class="col-md-12">
-                            <label for="accountNumber">Account Number</label>
-                            <input type="text" class="form-control" id="accountNumber" placeholder="e.g. 1234567890">
-                        </div>
-                        <div class="col-md-12">
-                            <label for="accountName">Account Name</label>
-                            <input type="text" class="form-control" id="accountName" placeholder="e.g. Celeste Global">
-                        </div>
+                    <div class="table-responsive">
+                        <table class="table table-dark-custom align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Page</th>
+                                    <th>Status</th>
+                                    <th>Referrer</th>
+                                    <th>Visitor ID</th>
+                                </tr>
+                            </thead>
+                            <tbody id="analytics-table-body">
+                                <tr>
+                                    <td colspan="5" class="text-center py-4">Loading analytics...</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
+            </div>
 
-                <!-- Save Action -->
-                <div class="d-flex justify-content-end pb-4">
-                    <button type="submit" class="btn btn-accent d-flex align-items-center w-100 justify-content-center w-md-auto">
-                        Save Changes
-                        <div class="loader" id="saveLoader"></div>
-                    </button>
-                </div>
-
-            </form>
         </main>
     </div>
 
